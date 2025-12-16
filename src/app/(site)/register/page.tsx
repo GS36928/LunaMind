@@ -61,12 +61,12 @@ const RegistrationForm = () => {
   }, []);
 
   // Check if email exists
- /* useEffect(() => {
+  useEffect(() => {
     if (!email) {
       setIsValidEmail(false);
       setError("");
       return;
-    }*/
+    }
 
     const controller = new AbortController();
 
@@ -330,7 +330,7 @@ const RegistrationForm = () => {
             >
               მოსწავლე
             </div>
-           {/* 
+           
 <div
   onClick={() => setRole("TEACHER")}
   className={`w-1/2 text-center text-sm leading-5 cursor-pointer ${
@@ -341,7 +341,7 @@ const RegistrationForm = () => {
 >
   მასწავლებელი
 </div>
-*/}
+
 
           </div>
 
