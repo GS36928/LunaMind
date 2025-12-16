@@ -61,12 +61,12 @@ const RegistrationForm = () => {
   }, []);
 
   // Check if email exists
-  useEffect(() => {
+ /* useEffect(() => {
     if (!email) {
       setIsValidEmail(false);
       setError("");
       return;
-    }
+    }*/
 
     const controller = new AbortController();
 
