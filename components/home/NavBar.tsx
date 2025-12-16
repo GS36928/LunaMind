@@ -31,9 +31,7 @@ const NavBar = ({ userImage, userFullName }: NavBarProps) => {
   }[] = [
     { key: "home", href: "#home", label: "მთავარი", icon: House01 },
     { key: "why", href: "#why", label: "რატომ ჩვენ", icon: Suitcase },
-/*
-{ key: "tutors", href: "#tutors", label: "რეპეტიტორები", icon: UsersGroup },
-*/
+    { key: "tutors", href: "#tutors", label: "რეპეტიტორები", icon: UsersGroup },
     { key: "reviews", href: "#reviews", label: "შეფასებები", icon: Star },
     { key: "packages", href: "#packages", label: "პაკეტები", icon: Files },
   ];
