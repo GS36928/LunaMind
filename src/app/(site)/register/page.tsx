@@ -330,16 +330,19 @@ const RegistrationForm = () => {
             >
               მოსწავლე
             </div>
-            <div
-              onClick={() => setRole("TEACHER")}
-              className={`w-1/2 text-center text-sm leading-5 cursor-pointer ${
-                role === "TEACHER"
-                  ? "font-helveticaneue-medium text-[#0C0F21] bg-[#F6F7FB] rounded-[48px] py-3"
-                  : "font-helveticaneue-regular text-[#737373] py-3"
-              }`}
-            >
-              მასწავლებელი
-            </div>
+           {/* 
+<div
+  onClick={() => setRole("TEACHER")}
+  className={`w-1/2 text-center text-sm leading-5 cursor-pointer ${
+    role === "TEACHER"
+      ? "font-helveticaneue-medium text-[#0C0F21] bg-[#F6F7FB] rounded-[48px] py-3"
+      : "font-helveticaneue-regular text-[#737373] py-3"
+  }`}
+>
+  მასწავლებელი
+</div>
+*/}
+
           </div>
 
           <div className="mt-[20px] lg:mt-[24px] flex flex-col gap-4">
