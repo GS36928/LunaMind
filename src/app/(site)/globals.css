@@ -1,0 +1,310 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-3xl: 1920px;
+}
+
+@font-face {
+  font-family: "Freeman";
+  src: url("/fonts/Freeman-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aclonica";
+  src: url("/fonts/Aclonica-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HelveticaNeue";
+  src: url("/fonts/helvetica-neue-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LGVAnastasia";
+  src: url("/fonts/hinted-LGVAnastasia-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HelveticaNeueMedium";
+  src: url("/fonts/HelveticaNeueMedium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpaceGrotesk-Bold";
+  src: url("/fonts/SpaceGrotesk-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-freeman-regular {
+  font-family: "Freeman";
+}
+
+.font-helveticaneue-regular {
+  font-family: "HelveticaNeue";
+}
+
+.font-helveticaneue-medium {
+  font-family: "HelveticaNeueMedium";
+}
+
+.font-aclonica-regular {
+  font-family: "Aclonica";
+}
+
+.font-lgvanastasia-regular {
+  font-family: "LGVAnastasia";
+}
+
+.font-spacegrotesk-bold {
+  font-family: "SpaceGrotesk-Bold";
+}
+
+.marquee {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* XL gap between items */
+  animation: scrollUp 40s linear infinite;
+}
+
+.marquee-inner-scrollDown {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* XL gap between items */
+  animation: scrollDown 40s linear infinite;
+}
+
+.marquee-wrapper:hover .marquee-inner,
+.marquee-wrapper:hover .marquee-inner-scrollDown {
+  animation-play-state: paused;
+}
+
+@keyframes scrollUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes scrollDown {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Slot machine container */
+.slot-machine {
+  width: 32px; /* same size as your flag SVG */
+  height: 32px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Inner reel with duplicated flags for seamless loop */
+.slot-machine-inner {
+  display: flex;
+  flex-direction: column;
+  animation: slotSpin 2s linear infinite; /* slower, smooth loop */
+}
+
+@keyframes slotSpin {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* =============================== */
+/* Scrollable Tabs Container        */
+/* =============================== */
+.custom-scroll {
+  display: flex;
+  gap: 1.5rem; /* spacing between tabs */
+  overflow-x: scroll; /* horizontal scroll */
+  overflow-y: hidden; /* hide vertical scroll */
+  scroll-behavior: smooth; /* smooth scroll */
+  padding-bottom: 6px; /* space for scrollbar */
+
+  /* Force scrollbar always visible */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #ffd700 #f1f1f1; /* thumb color, track color */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on mobile */
+}
+
+/* =============================== */
+/* Chrome, Safari, Edge Webkit      */
+/* =============================== */
+.custom-scroll::-webkit-scrollbar {
+  height: 6px; /* scrollbar thickness */
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1; /* light grey track */
+  border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #ffd700; /* yellow thumb */
+  border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #e6c200; /* darker yellow on hover */
+}
+
+/* =============================== */
+/* Tabs Styling                     */
+/* =============================== */
+.tab {
+  flex-shrink: 0; /* prevent shrinking */
+  padding: 0.5rem 0.5rem; /* vertical and horizontal padding */
+  position: relative; /* for underline */
+  cursor: pointer;
+  white-space: nowrap; /* keep text in one line */
+  transition: color 0.2s ease;
+}
+
+.tab:hover {
+  color: #080808; /* hover effect for inactive tabs */
+}
+
+/* Active tab */
+.tab.active {
+  color: #080808;
+  font-weight: 600;
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #080808;
+  border-radius: 2px;
+}
+
+/* =============================== */
+/* Optional: hide vertical scrollbar fallback */
+.custom-scroll {
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* =============================== */
+/* Optional: smooth scroll behavior */
+.custom-scroll {
+  scroll-behavior: smooth;
+}
+
+input,
+textarea,
+select {
+  font-size: 16px; /* Minimum 16px prevents zoom */
+  -webkit-text-size-adjust: 100%; /* Stops auto zoom */
+}
+
+/* Hide scrollbar for all browsers */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+@keyframes spinClockwiseChase {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinCounterClockwiseChase {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes shakeScale {
+  0% {
+    transform: translateX(0) scale(1) rotate(0deg);
+  }
+  10% {
+    transform: translateX(-3px) scale(1.02) rotate(-1deg);
+  }
+  20% {
+    transform: translateX(3px) scale(1.03) rotate(1deg);
+  }
+  30% {
+    transform: translateX(-3px) scale(1.02) rotate(-1deg);
+  }
+  40% {
+    transform: translateX(3px) scale(1.03) rotate(1deg);
+  }
+  50% {
+    transform: translateX(-1.5px) scale(1.02) rotate(-0.5deg);
+  }
+  60% {
+    transform: translateX(1.5px) scale(1.02) rotate(0.5deg);
+  }
+  70% {
+    transform: translateX(-1px) scale(1.01) rotate(-0.3deg);
+  }
+  80% {
+    transform: translateX(1px) scale(1.01) rotate(0.3deg);
+  }
+  90% {
+    transform: translateX(-0.5px) scale(1.01) rotate(-0.2deg);
+  }
+  100% {
+    transform: translateX(0) scale(1) rotate(0deg);
+  }
+}

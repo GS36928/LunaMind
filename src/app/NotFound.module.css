@@ -1,0 +1,120 @@
+/* NotFound.module.css */
+@font-face {
+  font-family: "Aclonica";
+  src: url("/fonts/Aclonica-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f6f5fa;
+  padding: 32px 20px 20px 20px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.header {
+  font-family: "Aclonica";
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #0c0f21;
+  margin-bottom: 24px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.errorCode {
+  font-family: "Helvetica Neue", system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 36px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+.description {
+  font-family: "Helvetica Neue", system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.button {
+  font-family: "Helvetica Neue", system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  text-align: center;
+  color: white;
+  background-color: #f0c514;
+  color: #080808;
+
+  padding: 16px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.button:hover {
+  background-color: #f3c50f;
+}
+
+/* Mobile first responsive adjustments */
+@media (max-width: 480px) {
+  .container {
+    padding: 32px 16px 16px 16px;
+  }
+
+  .header {
+    margin-bottom: 40px;
+    font-size: 28px;
+  }
+
+  .content {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 40px 32px 32px 32px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+}

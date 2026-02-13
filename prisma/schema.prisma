@@ -1,0 +1,225 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  role            Role      @default(STUDENT)
+  firstName       String
+  lastName        String
+  email           String    @unique
+  emailVerified   DateTime?
+  phoneNumber     String    @unique
+  passwordHash    String
+  image           String?
+  acceptedTerms   Boolean   @default(false)
+  acceptedPrivacy Boolean   @default(false)
+
+  otpCode      String?
+  otpExpiresAt DateTime?
+
+  accounts       Account[]
+  sessions       Session[]
+  StudentProfile StudentProfile?
+  TeacherProfile TeacherProfile?
+  Lesson         Lesson[]
+  studentReviews Review[]        @relation("StudentReviews")
+  teacherReviews Review[]        @relation("TeacherReviews")
+
+  bookedLessonsAsStudent BookedLesson[] @relation("BookedLessonStudent")
+  bookedLessonsAsTeacher BookedLesson[] @relation("BookedLessonTeacher")
+
+  isActive  Boolean @default(true)
+  banned    Boolean @default(false)
+  banReason String?
+
+  adminLogs AdminLog[]
+}
+
+model AdminLog {
+  id        String   @id @default(cuid())
+  action    String
+  details   Json?
+  userId    String
+  targetId  String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+  SUPER_ADMIN
+}
+
+model StudentProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  educationLevel      String?
+  desiredSubjects     String[]
+  reason              String?
+  hasOtherCourses     Boolean?
+  usageFrequency      String?
+  preferredLessonType String?
+  discoverySource     String?
+
+  currentStep Int      @default(0) // აქ შენახავს, რომელი კითხვაზეა სტუდენტი
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum EducationLevel {
+  SCHOOL
+  UNIVERSITY
+  OTHER
+}
+
+enum Availability {
+  FLEXIBLE
+  FIXED
+}
+
+model TeacherProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  age        Int?
+  city       String?
+  profession String? // პროფესიული ინფორმაცია
+  education  TeacherEducation? // უმაღლესი განათლება
+
+  currentStep Int      @default(0) // რომელ კითხვაზეა
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // 🧠 კითხვებზე პასუხები
+  goal                   String? // მთავარი მიზანი (ახალი მოსწავლეები, გამოცდილება და ა.შ.)
+  experienceYears        String? // გამოცდილების ხანგრძლივობა (0-1, 2-5, 6-10, 10+)
+  preferredAgeGroups     String[] // ასაკობრივი ჯგუფები (შეიძლება რამდენიმე აირჩიოს)
+  hasCertificate         Boolean? // აქვს თუ არა სერტიფიკატი
+  certificateDescription String? // სერტიფიკატის აღწერა (თუ "კი")
+  certificateFiles       String[] // სერტიფიკატის ფაილების Cloudinary URLs
+  offersFreeIntroLesson  Boolean? // უფასო გაცნობითი გაკვეთილი
+  hasIntroVideo          Boolean? // აქვს თუ არა გაცნობითი ვიდეო
+  introVideoUrl          String? // ვიდეოს Cloudinary ბმული (40MB max)
+  howDidYouHearAboutUs   String? // როგორ გაიგო ჩვენს შესახებ
+
+  teacherSubjects TeacherSubject[]
+  lessons         Lesson[]
+}
+
+model TeacherSubject {
+  id        String @id @default(cuid())
+  teacherId String
+  name      String
+  price     Float
+
+  teacher TeacherProfile @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+}
+
+enum TeacherEducation {
+  BACHELOR
+  MASTER
+  DOCTORATE
+  OTHER
+}
+
+model Lesson {
+  id        String   @id @default(cuid())
+  teacherId String
+  subject   String
+  day       String // კვირის დღე (ორშაბათი, სამშაბათი...)
+  date      DateTime // კონკრეტული შეხვედრის თარიღი
+  time      String // 24-საათიანი ფორმატი: 20:00
+  duration  Float // საათებში
+  comment   String?
+  link      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teacher          User           @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  TeacherProfile   TeacherProfile @relation(fields: [teacherProfileId], references: [id]) // ✅ აღარ არის optional
+  teacherProfileId String // ✅ აღარ არის optional
+}
+
+model BookedLesson {
+  id        String   @id @default(cuid())
+  studentId String
+  teacherId String
+  subject   String
+  day       String
+  date      DateTime
+  time      String
+  price     Float
+  duration  Float? // Optional
+  comment   String? // Optional
+  link      String? // Optional
+  createdAt DateTime @default(now())
+
+  student User @relation("BookedLessonStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  teacher User @relation("BookedLessonTeacher", fields: [teacherId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  studentId String
+  teacherId String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+
+  student User @relation("StudentReviews", fields: [studentId], references: [id], onDelete: Cascade)
+  teacher User @relation("TeacherReviews", fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, teacherId, createdAt])
+}
